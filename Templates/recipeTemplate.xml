@@ -1,0 +1,44 @@
+<RecipeDef>
+		<defName>Build[WeaponName]</defName>
+		<label>Build [WeaponName]</label>
+		<description>Build a [WeaponName].</description>
+		<jobString>Building [WeaponName].</jobString>
+		<workAmount>[WorkAmount]</workAmount>
+		<workSpeedStat>SmeltingSpeed</workSpeedStat>
+		<effectWorking>Smelt</effectWorking>
+		<soundWorking>Recipe_Smelt</soundWorking>
+		<skillRequirements>
+				<li>
+					<skill>Crafting</skill>
+					<minLevel>6</minLevel>
+				</li>
+			</skillRequirements>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Steel</li>
+					</thingDefs>
+				</filter>
+				<count>[SteelCost]</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Silver</li>
+					</thingDefs>
+				</filter>
+				<count>[SilverCost]</count>
+			</li>
+		</ingredients>
+		<products>
+			<[WeaponName]>1</[WeaponName]>
+		</products>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Steel</li>
+				<li>Silver</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<workSkill>Crafting</workSkill>
+	</RecipeDef>
