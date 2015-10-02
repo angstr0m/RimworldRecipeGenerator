@@ -69,12 +69,6 @@
 			<li>TakeapartIncendiaryLauncher</li>
 			<li>TakeapartArtilleryShell</li>
 
-			<li>BuildGDOcelot</li>
-			<li>BuildGDPuma</li>
-			<li>BuildGDPanther</li>
-			<li>BuildGDLynx</li>
-			<li>BuildGDJaguar</li>
-
 			[AdditionalReceipes]
 		</recipes>
 		<inspectorTabs>
