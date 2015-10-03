@@ -4,9 +4,12 @@
 		<description>Build a [WeaponName].</description>
 		<jobString>Building [WeaponName].</jobString>
 		<workAmount>[WorkAmount]</workAmount>
-		<workSpeedStat>SmeltingSpeed</workSpeedStat>
-		<effectWorking>Smelt</effectWorking>
-		<soundWorking>Recipe_Smelt</soundWorking>
+	<workSpeedStat>SmithingSpeed</workSpeedStat>
+	<recipeUsers>
+		<li>TableSmithing</li>
+	</recipeUsers>
+	<soundWorking>Recipe_ButcherCorpseMechanoid</soundWorking>
+	<unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
 		<skillRequirements>
 				<li>
 					<skill>Crafting</skill>

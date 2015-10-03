@@ -25,5 +25,6 @@ elif (os.path.isdir(args.input)):
 else:
     raise ValueError("Specified input '" + args.input + "' is neither a valid file nor folder.")
 
+# TODO: Generate complete addon file structure.
 recipeWriter.WriteRecipeFile(args.outputFile_recipes, weaponrecipes.weaponRecipes)
-recipeWriter.WriteBuildingFile(args.outputFile_building, weaponrecipes.weaponNames)
+# recipeWriter.WriteBuildingFile(args.outputFile_building, weaponrecipes.weaponNames)
