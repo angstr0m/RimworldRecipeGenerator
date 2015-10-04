@@ -10,7 +10,7 @@ __author__ = 'Malte Eckhoff'
 parser = argparse.ArgumentParser(description='Process Rimworld things def and create receipes for them.')
 parser.add_argument('input', help='The file or folder from which the weapons will be read.')
 parser.add_argument('outputFile_recipes', help='The file to which the receipes will be written to.')
-parser.add_argument('outputFile_building', help='The file to which the building defs will be written to.')
+#parser.add_argument('outputFile_building', help='The file to which the building defs will be written to.')
 args = parser.parse_args()
 
 recipeParser = WeaponRecipesParser()

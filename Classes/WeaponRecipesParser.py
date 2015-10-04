@@ -8,63 +8,96 @@ from Classes.WeaponRecipes import WeaponRecipes
 
 __author__ = 'Malte Eckhoff'
 
+class ItemFromXML:
+    pass
 
 class WeaponRecipesParser:
-    def GetWeaponRecipesFromFile(self, file: str) -> WeaponRecipes:
-        """
-        Gets an array of strings containing all weapon recipes from a specified XML file at position 0
-        and an array of all weapon names at position 1.
-        :param file: str The XML file that contains the weapon recipes
-        """
+    def GetItemsFromFile(self, file: str, allowedClasses: [], keysToRead: []) -> [ItemFromXML]:
         try:
             tree = ET.parse(file)
         except xml.etree.ElementTree.ParseError:
             print("Could not parse file '" + file + "': Invalid XML.")
             return WeaponRecipes("", [])
 
+        itemData = []
+
         root = tree.getroot()
+
+        for child in root:
+            if ('ParentName' in child.attrib):
+                # Get the class this thing def is derived from
+                parentClass = child.attrib['ParentName']
+
+                # Check if the current thing is a weapon
+                if (parentClass in allowedClasses):
+                    try:
+                        currentItem = ItemFromXML()
+                        tags = list(child.iter())
+                        for xmlItem in tags:
+                            if xmlItem.tag in keysToRead:
+                                setattr(currentItem, xmlItem.tag, xmlItem.text)
+
+                        objectValid = True;
+
+                        # Only add objects to the return list that satisfy all specified keys.
+                        for key in keysToRead:
+                            if not hasattr(currentItem, key):
+                                objectValid = False
+                                break
+
+                        if objectValid:
+                            itemData.append(currentItem)
+                    except:
+                        # Could not parse file this file
+                        print("Error while parsing file '" + file + "':\n" + str(sys.exc_info()[0]))
+                        pass
+
+        return itemData
+
+
+    def GetWeaponRecipesFromFile(self, file: str) -> WeaponRecipes:
+        """
+        Gets an array of strings containing all weapon recipes from a specified XML file at position 0
+        and an array of all weapon names at position 1.
+        :param file: str The XML file that contains the weapon recipes
+        """
         weaponRecipes = ""
-        weaponNames = []
 
         # Read the template file that will be used to construct a single recipe
         receipe_templateFile = open(Config.ReadValue("RecipeTemplate"), 'r')
         receipe_template = receipe_templateFile.read()
 
-        for child in root:
-            if ('ParentName' in child.attrib):
-                parentClass = child.attrib['ParentName']
+        # Get the weapons from the file
+        allowedClasses = Config.ReadArray("WeaponBaseClasses")
+        keysToRead = Config.ReadArray("WeaponReadKeys")
+        weaponsFromFile = self.GetItemsFromFile(file, allowedClasses, keysToRead)
 
-                # Weapon classes
-                allowedClasses = Config.ReadArray("WeaponBaseClasses")
+        for weapon in weaponsFromFile:
+            # Get the name of the weapon
+            weaponName = weapon.label
 
-                # Check if the current thing is a weapon
-                if (parentClass in allowedClasses):
-                    if (child.find('defName') != None):
-                        try:
-                            # Get the name of the weapon
-                            weaponName = "".join(child.find('defName').itertext())
-                            weaponNames.append(weaponName)
+            # Get the description of the weapon
+            weaponDesc = weapon.description
 
-                            # Get the marketvalue of the weapon
-                            weaponCost = int("".join(next(child.iterfind('.//MarketValue')).itertext()))
+            # Get the definition name of the weapon
+            weaponDefName = weapon.defName
 
-                            # Replace the placeholder string in the template with the values from the current weapon
-                            currentWeaponRecipe = receipe_template.replace('[WeaponName]', weaponName)
+            # Get the marketvalue of the weapon
+            weaponCost = int(weapon.MarketValue)
 
-                            # Set the cost of the weapon according to its market value
-                            currentWeaponRecipe = currentWeaponRecipe.replace('[WorkAmount]', str(weaponCost // 2))
-                            currentWeaponRecipe = currentWeaponRecipe.replace('[SteelCost]', str(weaponCost // 10))
-                            currentWeaponRecipe = currentWeaponRecipe.replace('[SilverCost]', str(weaponCost // 100))
+            # Replace the placeholder strings in the template with the values from the current weapon
+            currentWeaponRecipe = receipe_template.replace('[WeaponName]', weaponName)
+            currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDefName]', weaponDefName)
+            currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDesc]', weaponDesc)
 
-                            weaponRecipes += currentWeaponRecipe + "\n"
-                        except StopIteration:
-                            pass
-                        except:
-                            # Could not parse file this file
-                            print("Error while parsing file '" + file + "':\n" + str(sys.exc_info()[0]))
-                            pass
+            # Set the cost of the weapon according to its market value
+            currentWeaponRecipe = currentWeaponRecipe.replace('[WorkAmount]', str(weaponCost // 2))
+            currentWeaponRecipe = currentWeaponRecipe.replace('[SteelCost]', str(weaponCost // 10))
+            currentWeaponRecipe = currentWeaponRecipe.replace('[SilverCost]', str(weaponCost // 100))
 
-        return WeaponRecipes(weaponRecipes, weaponNames)
+            weaponRecipes += currentWeaponRecipe + "\n"
+
+        return WeaponRecipes(weaponRecipes, weaponsFromFile)
 
     def GetWeaponRecipesFromFolder(self, folder: str) -> WeaponRecipes:
         """

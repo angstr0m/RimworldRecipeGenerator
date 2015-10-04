@@ -109,3 +109,4 @@ target/
 TestInput.xml
 TestRecipeOutput.xml
 TestWorkbenchOutput.xml
+recipes.xml

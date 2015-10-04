@@ -26,4 +26,4 @@ class Config:
 
     @classmethod
     def ReadArray(cls, key):
-        return str.split(cls._getKey(key).strip(), ",")
+        return str.split(cls._getKey(key).replace(" ", ""), ",")

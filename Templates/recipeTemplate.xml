@@ -1,7 +1,7 @@
 <RecipeDef>
-		<defName>Build[WeaponName]</defName>
+		<defName>Build[WeaponDefName]</defName>
 		<label>Build [WeaponName]</label>
-		<description>Build a [WeaponName].</description>
+		<description>Build a [WeaponName]. [WeaponDesc]</description>
 		<jobString>Building [WeaponName].</jobString>
 		<workAmount>[WorkAmount]</workAmount>
 	<workSpeedStat>SmithingSpeed</workSpeedStat>
@@ -35,7 +35,7 @@
 			</li>
 		</ingredients>
 		<products>
-			<[WeaponName]>1</[WeaponName]>
+			<[WeaponDefName]>1</[WeaponDefName]>
 		</products>
 		<fixedIngredientFilter>
 			<thingDefs>
