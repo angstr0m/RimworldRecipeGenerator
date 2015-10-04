@@ -25,4 +25,4 @@ class WeaponRecipesWriter:
         for weapon in weaponNames:
             weaponReceipes += "<li>Build" + weapon + "</li>\n\t\t\t"
 
-        out_building.write(building_template.replace("[AdditionalReceipes]", weaponReceipes))
+        out_building.write(building_template.replace("[Receipes]", weaponReceipes))

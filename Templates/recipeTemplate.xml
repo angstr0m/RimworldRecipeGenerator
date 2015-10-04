@@ -1,47 +1,48 @@
 <RecipeDef>
-		<defName>Build[WeaponDefName]</defName>
-		<label>Build [WeaponName]</label>
-		<description>Build a [WeaponName]. [WeaponDesc]</description>
-		<jobString>Building [WeaponName].</jobString>
-		<workAmount>[WorkAmount]</workAmount>
+	<defName>Build[WeaponDefName]</defName>
+	<label>Build [WeaponName]</label>
+	<description>Build a [WeaponName]. [WeaponDesc]</description>
+	<jobString>Building [WeaponName].</jobString>
+	<workAmount>[WorkAmount]</workAmount>
 	<workSpeedStat>SmithingSpeed</workSpeedStat>
-	<recipeUsers>
-		<li>TableSmithing</li>
-	</recipeUsers>
 	<soundWorking>Recipe_ButcherCorpseMechanoid</soundWorking>
 	<unfinishedThingDef>UnfinishedWeapon</unfinishedThingDef>
-		<skillRequirements>
-				<li>
-					<skill>Crafting</skill>
-					<minLevel>6</minLevel>
-				</li>
-			</skillRequirements>
-		<ingredients>
+	<skillRequirements>
 			<li>
-				<filter>
-					<thingDefs>
-						<li>Steel</li>
-					</thingDefs>
-				</filter>
-				<count>[SteelCost]</count>
+				<skill>Crafting</skill>
+				<minLevel>6</minLevel>
 			</li>
-			<li>
-				<filter>
-					<thingDefs>
-						<li>Silver</li>
-					</thingDefs>
-				</filter>
-				<count>[SilverCost]</count>
-			</li>
-		</ingredients>
-		<products>
-			<[WeaponDefName]>1</[WeaponDefName]>
-		</products>
-		<fixedIngredientFilter>
-			<thingDefs>
-				<li>Steel</li>
-				<li>Silver</li>
-			</thingDefs>
-		</fixedIngredientFilter>
-		<workSkill>Crafting</workSkill>
-	</RecipeDef>
+	</skillRequirements>
+	<ingredients>
+		<li>
+			<filter>
+				<thingDefs>
+					<li>Steel</li>
+				</thingDefs>
+			</filter>
+			<count>[SteelCost]</count>
+		</li>
+		<li>
+			<filter>
+				<thingDefs>
+					<li>Silver</li>
+				</thingDefs>
+			</filter>
+			<count>[SilverCost]</count>
+		</li>
+	</ingredients>
+	<products>
+		<[WeaponDefName]>1
+	</[WeaponDefName]>
+</products>
+<fixedIngredientFilter>
+<thingDefs>
+	<li>Steel</li>
+	<li>Silver</li>
+</thingDefs>
+</fixedIngredientFilter>
+<workSkill>Crafting</workSkill>
+<recipeUsers>
+<li>[RecipeUser]</li>
+</recipeUsers>
+		</RecipeDef>

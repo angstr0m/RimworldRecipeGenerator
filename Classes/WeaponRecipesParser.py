@@ -72,30 +72,34 @@ class WeaponRecipesParser:
         keysToRead = Config.ReadArray("WeaponReadKeys")
         weaponsFromFile = self.GetItemsFromFile(file, allowedClasses, keysToRead)
 
-        for weapon in weaponsFromFile:
-            # Get the name of the weapon
-            weaponName = weapon.label
+        try:
+            for weapon in weaponsFromFile:
+                # Get the name of the weapon
+                weaponName = weapon.label
 
-            # Get the description of the weapon
-            weaponDesc = weapon.description
+                # Get the description of the weapon
+                weaponDesc = weapon.description
 
-            # Get the definition name of the weapon
-            weaponDefName = weapon.defName
+                # Get the definition name of the weapon
+                weaponDefName = weapon.defName
 
-            # Get the marketvalue of the weapon
-            weaponCost = int(weapon.MarketValue)
+                # Get the marketvalue of the weapon
+                weaponCost = int(weapon.MarketValue)
 
-            # Replace the placeholder strings in the template with the values from the current weapon
-            currentWeaponRecipe = receipe_template.replace('[WeaponName]', weaponName)
-            currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDefName]', weaponDefName)
-            currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDesc]', weaponDesc)
+                # Replace the placeholder strings in the template with the values from the current weapon
+                currentWeaponRecipe = receipe_template.replace('[WeaponName]', weaponName)
+                currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDefName]', weaponDefName)
+                currentWeaponRecipe = currentWeaponRecipe.replace('[WeaponDesc]', weaponDesc)
+                currentWeaponRecipe = currentWeaponRecipe.replace('[RecipeUser]', Config.ReadValue("RecipeUser"))
 
-            # Set the cost of the weapon according to its market value
-            currentWeaponRecipe = currentWeaponRecipe.replace('[WorkAmount]', str(weaponCost // 2))
-            currentWeaponRecipe = currentWeaponRecipe.replace('[SteelCost]', str(weaponCost // 10))
-            currentWeaponRecipe = currentWeaponRecipe.replace('[SilverCost]', str(weaponCost // 100))
+                # Set the cost of the weapon according to its market value
+                currentWeaponRecipe = currentWeaponRecipe.replace('[WorkAmount]', str(weaponCost // 2))
+                currentWeaponRecipe = currentWeaponRecipe.replace('[SteelCost]', str(weaponCost // 10))
+                currentWeaponRecipe = currentWeaponRecipe.replace('[SilverCost]', str(weaponCost // 100))
 
-            weaponRecipes += currentWeaponRecipe + "\n"
+                weaponRecipes += currentWeaponRecipe + "\n"
+        except TypeError:
+            pass
 
         return WeaponRecipes(weaponRecipes, weaponsFromFile)
 
@@ -125,7 +129,12 @@ class WeaponRecipesParser:
                     continue
 
                 recipesFromFile = self.GetWeaponRecipesFromFile(pathToFile)
-                weaponNames.extend(recipesFromFile.weaponNames)
+                try:
+                    weaponNames.extend(recipesFromFile.weaponNames)
+                except TypeError:
+                    # weapon names is empty
+                    pass
+
                 weaponRecipes += recipesFromFile.weaponRecipes
 
         return WeaponRecipes(weaponRecipes, weaponNames)
